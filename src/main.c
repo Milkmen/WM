@@ -16,6 +16,10 @@ int main(void)
     TaskBar_Create();
 
     freopen("/tmp/stard.log", "w", stdout);
+    freopen("/tmp/stard.log", "a", stderr);
+    setbuf(stdout, NULL);  // Disable buffering
+
+    printf("Starting loop...\n");
 
     XEvent event;
     while(1)
@@ -31,7 +35,7 @@ int main(void)
         }
         else if(event.type == MapRequest)
         {
-             Window w = event.xmaprequest.window;
+            Window w = event.xmaprequest.window;
             XWindowAttributes attr;
             XGetWindowAttributes(xstuff.display, w, &attr);
             printf("MapRequest: window=%lu, x=%d, y=%d, w=%d, h=%d\n", 
