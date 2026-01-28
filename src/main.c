@@ -18,11 +18,7 @@ int main(void)
     XEvent event;
     while(1)
     {
-        printf("Waiting for event...\n");
-        fflush(stdout);
         XNextEvent(xstuff.display, &event);
-        printf("Got event type: %d\n", event.type);
-        fflush(stdout);
 
         if(event.type == ButtonPress)
         {
@@ -31,12 +27,16 @@ int main(void)
                 XRaiseWindow(xstuff.display, event.xbutton.subwindow);
             }
         }
-
-        if(event.type == MapRequest)
+        else if(event.type == MapRequest)
         {
-            TaskBar_AddWindow(event.xmaprequest.window);
             XMapWindow(xstuff.display, event.xmaprequest.window);
+            TaskBar_AddWindow(event.xmaprequest.window);
         }
+        else if(event.type == DestroyNotify)
+        {
+            TaskBar_RemoveWindow(event.xdestroywindow.window);
+        }
+        
     }
 
     XCloseDisplay(xstuff.display);

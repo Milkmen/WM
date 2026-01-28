@@ -73,3 +73,25 @@ static void TaskBar_Draw()
 
     XFreeGC(xstuff.display, gc);
 }
+
+void TaskBar_RemoveWindow(Window oldWindow)
+{
+    int index = -1;
+    for(int i = 0; i < taskBar.buttonCount; ++i)
+    {
+        if(taskBar.buttons[i].window = oldWindow)
+        {
+            index = i;
+            break;
+        }
+    }
+
+    if(index < 0) return;
+
+    for(int i = index; i < taskBar.buttonCount - 1; ++i)
+    {
+        taskBar.buttons[i] = taskBar.buttons[i + 1];
+    }
+
+    TaskBar_Draw();
+}
