@@ -15,6 +15,8 @@ int main(void)
 
     TaskBar_Create();
 
+    freopen("/tmp/stard.log", "w", stdout);
+
     XEvent event;
     while(1)
     {
@@ -29,8 +31,14 @@ int main(void)
         }
         else if(event.type == MapRequest)
         {
-            XMapWindow(xstuff.display, event.xmaprequest.window);
-            TaskBar_AddWindow(event.xmaprequest.window);
+             Window w = event.xmaprequest.window;
+            XWindowAttributes attr;
+            XGetWindowAttributes(xstuff.display, w, &attr);
+            printf("MapRequest: window=%lu, x=%d, y=%d, w=%d, h=%d\n", 
+                w, attr.x, attr.y, attr.width, attr.height);
+
+            XMapWindow(xstuff.display, w);
+            TaskBar_AddWindow(w);
         }
         else if(event.type == DestroyNotify)
         {
