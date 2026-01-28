@@ -1,39 +1,45 @@
-#include <X11/Xlib.h>
+#include "TaskBar.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 #define ERROR(format, ...) fprintf(stderr, format, ##__VA_ARGS__)
 
-Display* SSetupDisplay();
+Display* SetupDisplay();
 
-XButtonEvent buttonEvent;
+Xstuff_t xstuff;
 
 int main(void)
 {
-    Display* display = SSetupDisplay();
-    if(!display) return -1;
+    xstuff.display = SetupDisplay();
+    if(!xstuff.display) return -1;
+
+    TaskBar_Create();
 
     XEvent event;
-
     while(1)
     {
-        XNextEvent(display, &event);
+        XNextEvent(xstuff.display, &event);
 
         if(event.type == ButtonPress)
         {
             if(event.xbutton.subwindow != None)
             {
-                XRaiseWindow(display, event.xbutton.subwindow);
+                XRaiseWindow(xstuff.display, event.xbutton.subwindow);
             }
+        }
+
+        if(event.type == MapRequest)
+        {
+            TaskBar_AddWindow(event.xmaprequest.window);
         }
     }
 
-    XCloseDisplay(display);
+    XCloseDisplay(xstuff.display);
 
     return 0;
 }
 
-int SErrorHandler(Display* display, XErrorEvent* error)
+int ErrorHandler(Display* display, XErrorEvent* error)
 {
     switch (error->type)
     {
@@ -49,7 +55,7 @@ int SErrorHandler(Display* display, XErrorEvent* error)
     exit(-1);
 }
 
-Display* SSetupDisplay()
+Display* SetupDisplay()
 {
     Display* display = XOpenDisplay(NULL);
 
@@ -59,7 +65,7 @@ Display* SSetupDisplay()
         return 0;
     }
 
-    XSetErrorHandler(SErrorHandler);
+    XSetErrorHandler(ErrorHandler);
 
     Window root = DefaultRootWindow(display);
 
