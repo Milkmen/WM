@@ -2,8 +2,8 @@ CC = cc
 
 all: bin bin/stard
 
-bin/stard: src/main.c src/TaskBar.c
-	$(CC) $< -lX11 -o $@
+bin/stard: 
+	$(CC) src/main.c src/TaskBar.c -lX11 -o $@
 
 clean:
 	rm -rf bin
