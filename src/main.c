@@ -18,7 +18,11 @@ int main(void)
     XEvent event;
     while(1)
     {
+        printf("Waiting for event...\n");
+        fflush(stdout);
         XNextEvent(xstuff.display, &event);
+        printf("Got event type: %d\n", event.type);
+        fflush(stdout);
 
         if(event.type == ButtonPress)
         {
