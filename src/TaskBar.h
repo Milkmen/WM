@@ -14,5 +14,6 @@ TaskButton_t;
 
 void TaskBar_Create();
 void TaskBar_AddWindow(Window newWindow);
+void TaskBar_RemoveWindow(Window oldWindow);
 
 #endif // TASKBAR_H

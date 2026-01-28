@@ -31,6 +31,7 @@ int main(void)
         if(event.type == MapRequest)
         {
             TaskBar_AddWindow(event.xmaprequest.window);
+            XMapWindow(xstuff.display, event.xmaprequest.window);
         }
     }
 

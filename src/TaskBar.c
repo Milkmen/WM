@@ -25,7 +25,7 @@ void TaskBar_Create()
 
     taskBar.window = XCreateSimpleWindow(
         xstuff.display, root,
-        0, screenWidth - TASKBAR_HEIGHT,
+        0, screenHeight - TASKBAR_HEIGHT,
         screenWidth, TASKBAR_HEIGHT,
         0, BlackPixel(xstuff.display, screen), 
         WhitePixel(xstuff.display, screen)
@@ -47,7 +47,7 @@ void TaskBar_AddWindow(Window newWindow)
 
     taskBar.buttons[taskBar.buttonCount].window = newWindow;
     
-    XMapWindow(xstuff.display, taskBar.window);
+    taskBar.buttonCount++;
 
     TaskBar_Draw();
 }
