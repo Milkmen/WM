@@ -48,6 +48,18 @@ int main(void)
         {
             TaskBar_RemoveWindow(event.xdestroywindow.window);
         }
+        else if(event.type == ConfigureRequest)
+        {
+            XWindowChanges changes;
+            changes.x = event.xconfigurerequest.x;
+            changes.y = event.xconfigurerequest.y;
+            changes.width = event.xconfigurerequest.width;
+            changes.height = event.xconfigurerequest.height;
+            changes.border_width = event.xconfigurerequest.border_width;
+            
+            XConfigureWindow(xstuff.display, event.xconfigurerequest.window,
+                            event.xconfigurerequest.value_mask, &changes);
+        }
         
     }
 
