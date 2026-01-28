@@ -1,4 +1,5 @@
 #include "TaskBar.h"
+#include <string.h>
 
 #define TASKBAR_HEIGHT 32
 #define TASK_BUTTON_WIDTH 128
